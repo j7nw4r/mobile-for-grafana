@@ -9,15 +9,34 @@ against a different product domain (observability viewing rather than GitOps-CD)
 
 ## Current state
 
-**Design phase.** No Swift code yet. All design is in [`docs/`](docs/), numbered
-in read-order. The implementation sequence is in
-[`docs/11-roadmap.md`](docs/11-roadmap.md).
+**Phase 0 — Foundations** has landed: token-based login, Keychain-persisted
+credential, restore-on-launch, signed-in placeholder, 22 unit tests. Next
+is Phase 1 (Browse). Sequencing is in [`docs/11-roadmap.md`](docs/11-roadmap.md).
 
 If you're picking this up:
 
 1. Read [`docs/00-overview.md`](docs/00-overview.md) first.
 2. Then [`docs/01-architecture.md`](docs/01-architecture.md).
 3. Then jump to whichever doc describes the phase you're working on.
+
+## Running against a real Grafana
+
+For any change to `Networking/`, `Auth/`, or anything touching the API
+contract, verify against a real Grafana before declaring done. The repo
+ships a Docker-based dev loop:
+
+```sh
+make integration-up        # start Grafana, mint a service-account token
+make integration-token     # print URL + token for the app
+make integration-down      # tear down + delete the token file
+```
+
+Server URL is `http://localhost:3000`, token is in the `integration-token`
+output (also stored in `integration/.integration-env`, gitignored). The
+container is ephemeral — every up is a fresh Grafana with no prior state.
+
+Design lives in [`docs/12-integration-testing.md`](docs/12-integration-testing.md).
+Phase 2 grows this scaffolding into the integration test target.
 
 ## Conventions
 

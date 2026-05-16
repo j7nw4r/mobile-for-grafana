@@ -1,8 +1,24 @@
 # 12 — Integration testing against a real Grafana
 
-This doc is forward-looking. Nothing here is implemented until Phase 2 of
-[`11-roadmap.md`](11-roadmap.md). It exists now so the design is fixed
-before we start writing the harness.
+The dev-loop scaffolding (Grafana container + token bootstrap + `make`
+targets) ships early because Phase 0 already needs it for manual
+verification. The XCTest target, Prometheus, datasource provisioning, and
+the kitchen-sink dashboard land with their corresponding phases per the
+coverage table below.
+
+Status:
+
+| Piece | Status |
+| --- | --- |
+| `integration/docker-compose.yml` (Grafana only) | ✅ landed in Phase 0 |
+| `integration/scripts/bootstrap-token.sh` | ✅ landed in Phase 0 |
+| `integration/scripts/wait-for-healthy.sh` | ✅ landed in Phase 0 |
+| Root `Makefile` targets | ✅ landed in Phase 0 |
+| Prometheus service in compose | ⏳ Phase 2 |
+| Datasource + dashboard provisioning | ⏳ Phase 2 |
+| `GrafanaViewerIntegrationTests` target | ⏳ Phase 2 |
+| Loki service | ⏳ Phase 3 |
+| Editor-role token (for silence tests) | ⏳ Phase 6 |
 
 ## Why this exists
 
