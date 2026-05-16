@@ -52,6 +52,7 @@ The design lives under [`docs/`](docs/) and is meant to be read in order:
 | 10 | [build-and-release](docs/10-build-and-release.md) | Xcode config, signing, TestFlight |
 | 11 | [roadmap](docs/11-roadmap.md) | 8-phase implementation order |
 | 12 | [integration-testing](docs/12-integration-testing.md) | Docker-compose Grafana harness (Phase 2 target) |
+| 13 | [testing-plan](docs/13-testing-plan.md) | Unit + integration + manual sim layers; per-phase checklist |
 
 ## Inspiration
 

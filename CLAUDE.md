@@ -54,7 +54,10 @@ Phase 2 grows this scaffolding into the integration test target.
   yourself reaching for one, write a paragraph in the relevant doc justifying
   it first.
 - **Tests**: XCTest for unit tests; mock the network layer at the `URLSession`
-  protocol boundary, not at the feature layer.
+  protocol boundary, not at the feature layer. Three-layer plan (unit,
+  integration, manual sim) lives in
+  [`docs/13-testing-plan.md`](docs/13-testing-plan.md), including the
+  per-phase verification checklist.
 
 ## Code style
 
@@ -86,5 +89,5 @@ Phase 2 grows this scaffolding into the integration test target.
 
 ## When in doubt
 
-The 13 docs are the source of truth. If an implementation detail isn't in a
+The 14 docs are the source of truth. If an implementation detail isn't in a
 doc, that's a gap — surface it before coding around it.

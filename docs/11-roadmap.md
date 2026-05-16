@@ -1,6 +1,6 @@
 # 11 — Roadmap
 
-The 13-doc design set isn't a release plan. This doc is. It sequences the
+The 14-doc design set isn't a release plan. This doc is. It sequences the
 work into eight phases, each of which lands a demoable improvement, in an
 order chosen so that each phase builds on the previous one without a
 half-built ledge.
