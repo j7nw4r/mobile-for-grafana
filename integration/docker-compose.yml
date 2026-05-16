@@ -1,0 +1,25 @@
+# Local Grafana for development + the eventual Phase 2 integration test
+# harness. Versions are pinned exactly — bump deliberately and verify with
+# the integration test suite (once it exists).
+#
+# Phase 2 will add a `prometheus` service, datasource provisioning, and a
+# kitchen-sink dashboard. For now, Grafana alone is enough to verify the
+# Phase 0 auth flow end-to-end.
+
+services:
+  grafana:
+    image: grafana/grafana-oss:11.2.0
+    container_name: grafana-viewer-dev
+    ports:
+      - "${GRAFANA_HOST_PORT:-3000}:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_LOG_LEVEL: warn
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 12

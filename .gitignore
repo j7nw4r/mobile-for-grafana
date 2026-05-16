@@ -55,6 +55,7 @@ fastlane/.env*
 .env
 .env.local
 *.local.json
+integration/.integration-env
 
 # Editor
 .vscode/
