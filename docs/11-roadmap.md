@@ -1,6 +1,6 @@
 # 11 — Roadmap
 
-The 12-doc design set isn't a release plan. This doc is. It sequences the
+The 13-doc design set isn't a release plan. This doc is. It sequences the
 work into eight phases, each of which lands a demoable improvement, in an
 order chosen so that each phase builds on the previous one without a
 half-built ledge.
@@ -93,14 +93,23 @@ dashboard, and see a list of panel placeholders with the correct titles.
 - `Models/UnitFormatter.swift` (the 12 most common units).
 - `Features/DashboardDetail/TimeRangePicker.swift` — relative presets only,
   no custom range yet.
+- `integration/` — `docker-compose.yml` (Grafana OSS + Prometheus),
+  provisioning files, kitchen-sink dashboard, and a token-bootstrap
+  script. `GrafanaViewerIntegrationTests` target with the first two cases
+  (`/api/ds/query` shape + `DashboardEnvelope` decode). Opt-in: skipped
+  when `GRAFANA_URL` / `GRAFANA_TOKEN` are unset, so the default
+  `xcodebuild test` stays offline. Full design in
+  [`12-integration-testing.md`](12-integration-testing.md).
 
 **Doc references:** `04-datasource-queries.md`,
 `05-panels-and-charts.md` (timeseries + stat sections + thresholds +
-units), `06-dashboards-and-variables.md` (time range — relative only).
+units), `06-dashboards-and-variables.md` (time range — relative only),
+`12-integration-testing.md` (integration harness intro + Phase 2 cases).
 
 **Done when:** Against a real Grafana with a Prometheus datasource, I
 can open a dashboard with a timeseries panel and a stat panel and see
-correct data with the right legend, colors, and value formatting.
+correct data with the right legend, colors, and value formatting. The
+integration suite passes locally against the docker-compose stack.
 
 ## Phase 3 — More panels
 

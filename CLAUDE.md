@@ -67,5 +67,5 @@ If you're picking this up:
 
 ## When in doubt
 
-The 12 docs are the source of truth. If an implementation detail isn't in a
+The 13 docs are the source of truth. If an implementation detail isn't in a
 doc, that's a gap — surface it before coding around it.
