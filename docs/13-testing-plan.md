@@ -114,12 +114,22 @@ opted out of. The cheapest catch is a human running the app.
 
 ```sh
 make integration-up        # start Grafana, mint a service-account token
-make integration-token     # print URL + token
-# 1. Open GrafanaViewer/GrafanaViewer.xcodeproj in Xcode.
-# 2. Run on the latest iPhone simulator (default scheme).
-# 3. Paste URL + token into LoginView, walk the phase's "Done when".
+make sim                   # build + install + launch with login prefilled
+# Tap Continue, walk the phase's "Done when".
 make integration-down      # tear down + remove token file
 ```
+
+`make sim` builds the app, boots the latest-iOS `iPhone 17` simulator
+(override with `SIM_DEVICE`), installs the app, and launches it with
+`GRAFANA_URL` / `GRAFANA_TOKEN` piped in as env vars. `LoginView`'s
+`#if DEBUG` init reads those and prefills the form, so verification is
+literally one tap on Continue. The DEBUG guard means the prefill code
+is stripped from Release / TestFlight builds — no chance of shipping
+hardcoded creds.
+
+If you'd rather run from Xcode (for debugger + breakpoints), open the
+project, run on the simulator, and paste the values from
+`make integration-token` by hand.
 
 ### Recording the result
 

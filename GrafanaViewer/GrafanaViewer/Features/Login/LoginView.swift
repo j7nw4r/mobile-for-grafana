@@ -4,10 +4,25 @@ import OSLog
 struct LoginView: View {
     @Environment(ServerContext.self) private var session
 
-    @State private var serverURL: String = ""
-    @State private var token: String = ""
+    @State private var serverURL: String
+    @State private var token: String
     @State private var error: LoginError?
     @State private var isSubmitting = false
+
+    init() {
+        // DEBUG only: prefill from env so `make sim` (which sets
+        // SIMCTL_CHILD_GRAFANA_URL/TOKEN from .integration-env) gives a
+        // one-tap manual verification flow. Stripped from Release builds.
+        var prefillURL = ""
+        var prefillToken = ""
+        #if DEBUG
+        let env = ProcessInfo.processInfo.environment
+        prefillURL = env["GRAFANA_URL"] ?? ""
+        prefillToken = env["GRAFANA_TOKEN"] ?? ""
+        #endif
+        _serverURL = State(initialValue: prefillURL)
+        _token = State(initialValue: prefillToken)
+    }
 
     var body: some View {
         NavigationStack {

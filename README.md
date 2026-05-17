@@ -16,20 +16,25 @@ real Grafana in about 30 seconds. Requires Docker.
 
 ```sh
 make integration-up        # pull + start Grafana, wait healthy, mint token
-make integration-token     # print the URL + token for pasting into the app
+make sim                   # build + install + launch with login prefilled
+# tap Continue → signed in
+make integration-down      # when finished
 ```
 
-Then open `GrafanaViewer/GrafanaViewer.xcodeproj` in Xcode, run on a
-simulator, and paste:
+`make sim` boots the latest-iOS `iPhone 17` simulator, installs the
+debug build, and pipes the Grafana URL + token in as env vars.
+`LoginView`'s `#if DEBUG` initializer reads them and prefills the form
+(stripped from Release builds — no shipped creds). Override the device
+via `SIM_DEVICE=iPhone\ 17\ Pro`.
 
-- **Server URL** — `http://localhost:3000`
-- **Service-account token** — value of `GRAFANA_TOKEN` from the output above
-
-Tear down with `make integration-down`. The Grafana container is ephemeral
-(no persistent volume) — every `integration-up` is fresh state. The token
-also rotates on every up, so re-running gives you a fresh credential. See
-[`docs/12-integration-testing.md`](docs/12-integration-testing.md) for the
-full design (Phase 2 grows this into the integration test target).
+If you'd rather run from Xcode (for breakpoints), open the project,
+hit Run, and paste the values from `make integration-token` by hand.
+The Grafana container is ephemeral — every `integration-up` is fresh
+state, and the token rotates on every up. See
+[`docs/12-integration-testing.md`](docs/12-integration-testing.md) for
+the harness design and
+[`docs/13-testing-plan.md`](docs/13-testing-plan.md) for the testing
+plan.
 
 ## Documents
 
