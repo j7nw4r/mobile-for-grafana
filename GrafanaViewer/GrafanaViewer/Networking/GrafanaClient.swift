@@ -25,10 +25,43 @@ struct GrafanaClient: Sendable {
     }
 
     /// Fetch the user the active credential resolves to. Used by the login
-    /// flow to validate a newly entered token, and by `SignedInView` to
+    /// flow to validate a newly entered token, and by Settings to
     /// re-validate on launch.
     func getCurrentUser() async throws -> User {
         try await get("/api/user")
+    }
+
+    /// All folders the active credential can see. The synthetic "Shared
+    /// with me" folder (Grafana 11+) is included verbatim — feature code
+    /// filters via `Folder.isSyntheticSharedWithMe` if it wants to hide it.
+    func listFolders() async throws -> [Folder] {
+        try await get("/api/folders")
+    }
+
+    /// `GET /api/search`. Filters that are nil/empty are omitted from the
+    /// query string. Grafana 10+ uses `folderUIDs` (plural, UID-based) —
+    /// see CLAUDE.md.
+    func searchDashboards(
+        query: String? = nil,
+        type: SearchHit.Kind? = .dashboard,
+        folderUIDs: [String] = [],
+        starred: Bool? = nil,
+        tags: [String] = [],
+        limit: Int? = nil
+    ) async throws -> [SearchHit] {
+        var items: [URLQueryItem] = []
+        if let query, !query.isEmpty { items.append(.init(name: "query", value: query)) }
+        if let type { items.append(.init(name: "type", value: type.rawValue)) }
+        for uid in folderUIDs { items.append(.init(name: "folderUIDs", value: uid)) }
+        if let starred { items.append(.init(name: "starred", value: starred ? "true" : "false")) }
+        for tag in tags { items.append(.init(name: "tag", value: tag)) }
+        if let limit { items.append(.init(name: "limit", value: String(limit))) }
+        return try await get("/api/search", query: items)
+    }
+
+    /// `GET /api/dashboards/uid/{uid}` — the dashboard plus its meta.
+    func getDashboard(uid: String) async throws -> DashboardEnvelope {
+        try await get("/api/dashboards/uid/\(uid)")
     }
 
     /// Issue a `GET` against an API path (e.g. `"/api/folders"`).

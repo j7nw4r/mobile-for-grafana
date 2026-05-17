@@ -5,9 +5,20 @@ struct RootView: View {
 
     var body: some View {
         if session.activeServer != nil {
-            SignedInView()
+            MainTabView()
         } else {
             LoginView()
+        }
+    }
+}
+
+private struct MainTabView: View {
+    var body: some View {
+        TabView {
+            HomeView()
+                .tabItem { Label("Dashboards", systemImage: "rectangle.grid.2x2") }
+            SettingsView()
+                .tabItem { Label("Settings", systemImage: "gear") }
         }
     }
 }
