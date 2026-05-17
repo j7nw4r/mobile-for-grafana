@@ -1,0 +1,51 @@
+{
+  "uid": "kitchen-sink",
+  "title": "Kitchen Sink",
+  "tags": ["demo", "fixture"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "",
+  "time": { "from": "now-6h", "to": "now" },
+  "templating": { "list": [] },
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Request rate",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 8 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(prometheus_http_requests_total[5m])",
+          "legendFormat": "{{handler}}"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "options": {}
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Up",
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 6 },
+      "targets": [
+        { "refId": "A", "expr": "count(up)" }
+      ],
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] } }
+    },
+    {
+      "id": 3,
+      "type": "table",
+      "title": "Targets",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 6 },
+      "targets": [
+        { "refId": "A", "expr": "up", "format": "table" }
+      ],
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "options": {}
+    }
+  ]
+}
